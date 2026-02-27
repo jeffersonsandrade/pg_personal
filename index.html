@@ -55,14 +55,17 @@
             background-color: #ff0000;
             color: white;
             font-weight: 900;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s ease-in-out;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
             display: inline-block;
         }
         .btn-urban:hover {
             transform: scale(1.05) skewX(-2deg);
             background-color: #cc0000;
-            color: white;
+        }
+        .btn-urban:active {
+            transform: scale(0.95);
+            opacity: 0.9;
         }
 
         /* Hero Background */
@@ -87,7 +90,16 @@
         }
 
         #menu-mobile {
-            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        /* Efeito de clique mobile para links */
+        .mobile-tap {
+            transition: all 0.1s ease-in-out;
+        }
+        .mobile-tap:active {
+            transform: scale(0.92);
+            background-color: rgba(255, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -98,7 +110,7 @@
     <!-- Navegação -->
     <header class="fixed w-full z-[100] bg-white/80 dark:bg-black/90 backdrop-blur-md border-b border-black/5 dark:border-white/5 transition-colors duration-300">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#topo" class="text-2xl md:text-3xl font-bebas tracking-tighter italic text-zinc-900 dark:text-white">
+            <a href="#" class="text-2xl md:text-3xl font-bebas tracking-tighter italic text-zinc-900 dark:text-white">
                 PAULO GIOVANE | <span class="text-red-600">TREINADOR</span>
             </a>
 
@@ -109,7 +121,7 @@
                 <li><a href="#playlist" class="hover:text-red-600 transition">Playlists</a></li>
                 <li><a href="#galeria" class="hover:text-red-600 transition">Galeria</a></li>
                 <li>
-                    <button id="theme-toggle" class="p-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-all active:scale-90" title="Alternar Tema">
                         <svg id="theme-icon-sun" class="hidden h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 11-2 0V3zM14.036 5.05l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12 10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
                         <svg id="theme-icon-moon" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
                     </button>
@@ -117,13 +129,13 @@
                 <li><a href="#contato" class="btn-urban px-6 py-2 text-center">Agendar Treino</a></li>
             </ul>
 
-            <!-- Mobile Buttons -->
-            <div class="flex items-center space-x-4 lg:hidden">
-                <button id="theme-toggle-mobile" class="p-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+            <!-- Mobile Nav Buttons -->
+            <div class="flex items-center space-x-2 lg:hidden">
+                <button id="theme-toggle-mobile" class="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-all active:scale-75 active:opacity-70 duration-150 shadow-sm" aria-label="Trocar Tema">
                     <svg class="h-5 w-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
                     <svg class="h-5 w-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1z"/></svg>
                 </button>
-                <button id="open-menu" class="text-zinc-900 dark:text-white p-2">
+                <button id="open-menu" class="text-zinc-900 dark:text-white p-3 transition-all active:scale-75 active:opacity-70 duration-150" aria-label="Abrir Menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
@@ -132,17 +144,17 @@
         </nav>
     </header>
 
-    <!-- Menu Mobile -->
+    <!-- Menu Mobile Overlay -->
     <aside id="menu-mobile" class="fixed inset-0 z-[110] bg-white dark:bg-zinc-950 translate-x-full lg:hidden flex flex-col p-8 transition-colors duration-300">
         <div class="flex justify-end">
-            <button id="close-menu" class="text-red-600 text-3xl font-bebas tracking-widest p-2">VOLTAR [X]</button>
+            <button id="close-menu" class="text-red-600 text-3xl font-bebas tracking-widest p-4 transition-all active:scale-75 active:opacity-50 duration-150">VOLTAR [X]</button>
         </div>
-        <nav class="flex flex-col space-y-8 mt-12 text-center">
-            <a href="#sobre" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">SOBRE</a>
-            <a href="#metodo" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">MÉTODO</a>
-            <a href="#playlist" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">PLAYLIST</a>
-            <a href="#galeria" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">GALERIA</a>
-            <a href="#contato" class="m-link text-5xl font-bebas text-red-600 underline">WHATSAPP</a>
+        <nav class="flex flex-col space-y-4 mt-8 text-center overflow-y-auto">
+            <a href="#sobre" class="m-link mobile-tap text-5xl font-bebas text-zinc-900 dark:text-white py-4 rounded-xl">SOBRE</a>
+            <a href="#metodo" class="m-link mobile-tap text-5xl font-bebas text-zinc-900 dark:text-white py-4 rounded-xl">MÉTODO</a>
+            <a href="#playlist" class="m-link mobile-tap text-5xl font-bebas text-zinc-900 dark:text-white py-4 rounded-xl">PLAYLIST</a>
+            <a href="#galeria" class="m-link mobile-tap text-5xl font-bebas text-zinc-900 dark:text-white py-4 rounded-xl">GALERIA</a>
+            <a href="#contato" class="m-link mobile-tap text-5xl font-bebas text-red-600 underline py-6 rounded-xl">WHATSAPP</a>
         </nav>
     </aside>
 
@@ -174,7 +186,7 @@
                         <p class="text-zinc-900 dark:text-white font-bold italic border-b border-zinc-200 dark:border-zinc-800 pb-2">Vagas limitadas para acompanhamento presencial na região!</p>
                         <p class="text-sm">Através da minha consultoria online, você terá um plano individualizado, pensado para sua rotina, objetivos e nível de treino.</p>
                         
-                        <div class="pt-4">
+                        <div class="pt-4 text-center md:text-left">
                             <a href="#contato" class="btn-urban px-10 py-4 text-xl italic uppercase">Garantir minha vaga</a>
                         </div>
                     </div>
@@ -182,7 +194,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center pt-20">
@@ -203,6 +214,7 @@
     </section>
 
     
+
     <!-- Método Section -->
     <section id="metodo" class="py-24 bg-zinc-50 dark:bg-black/95 transition-colors">
         <div class="container mx-auto px-6">
@@ -266,8 +278,8 @@
             <div class="flex flex-col md:flex-row justify-center items-center gap-10 mb-16">
                 <a href="https://api.whatsapp.com/send/?phone=5543988496320" class="btn-urban px-16 py-6 text-3xl italic uppercase text-center">WHATSAPP</a>
                 <div class="text-left border-l border-zinc-300 dark:border-zinc-800 pl-8">
-                    <p class="text-black dark:text-white text-[20px] font-black uppercase tracking-widest mb-2">instagram </p>
-                    <a href="https://www.instagram.com/pgvane_" class="block font-bebas text-3xl text-zinc-900 dark:text-white hover:text-red-600 transition italic">@pgvane_</a>
+                    <p class="text-black dark:text-white text-[16px] font-black uppercase tracking-widest mb-3">instagram</p>
+                    <a href="https://www.instagram.com/pgvane_" class="block font-bebas text-2xl text-zinc-900 dark:text-white hover:text-red-600 transition italic">@pgvane_</a>
                 </div>
             </div>
 
@@ -278,15 +290,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                     </svg>
                 </a>
-                <p class="text-black dark:text-white text-[10px] uppercase font-black tracking-widest mt-2">Topo</p>
+                <p class="text-zinc-500 text-[10px] uppercase font-black tracking-widest mt-2">Topo</p>
             </div>
 
-            <p class="text-black dark:text-white text-[12px] uppercase font-black tracking-[0.5em] transition-colors duration-300">Paulo Giovane | Treinador © 2026</p>
-            
+            <p class="text-black dark:text-white text-[10px] uppercase font-black tracking-[1em] transition-colors duration-300">Paulo Giovane | Treinador © 2026</p>
         </div>
     </footer>
 
-    <!-- Player Fixo Atualizado com controlos Anterior/Próximo -->
+    <!-- Player Fixo -->
     <div class="fixed bottom-0 left-0 w-full z-[120] bg-white/95 dark:bg-black/95 border-t-2 border-red-600 p-4 shadow-2xl backdrop-blur-md transition-colors">
         <div class="container mx-auto flex items-center justify-between gap-4">
             <div class="flex items-center space-x-4 flex-1 truncate text-zinc-900 dark:text-white">
@@ -300,24 +311,17 @@
             </div>
             
             <div class="flex items-center space-x-4 md:space-x-8">
-                <!-- Controlos do Player: Anterior | Play | Próximo -->
                 <div class="flex items-center space-x-4">
-                    <!-- Botão Anterior -->
-                    <button id="p-prev" class="text-zinc-900 dark:text-white hover:text-red-600 transition group" title="Faixa Anterior">
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-                        </svg>
+                    <button id="p-prev" class="text-zinc-900 dark:text-white hover:text-red-600 transition active:scale-75" title="Anterior">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                     </button>
                     
-                    <button id="p-toggle" class="text-zinc-900 dark:text-white hover:text-red-600 transition scale-125">
+                    <button id="p-toggle" class="text-zinc-900 dark:text-white hover:text-red-600 transition scale-125 active:scale-90">
                         <svg id="p-icon" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
                     
-                    <!-- Botão Próximo -->
-                    <button id="p-next" class="text-zinc-900 dark:text-white hover:text-red-600 transition group" title="Próxima Faixa">
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-                        </svg>
+                    <button id="p-next" class="text-zinc-900 dark:text-white hover:text-red-600 transition active:scale-75" title="Próxima">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
                     </button>
                 </div>
                 
@@ -372,9 +376,25 @@
         const btnO = document.getElementById('open-menu');
         const btnC = document.getElementById('close-menu');
         const menuM = document.getElementById('menu-mobile');
+        
         btnO.onclick = () => menuM.classList.remove('translate-x-full');
         btnC.onclick = () => menuM.classList.add('translate-x-full');
-        document.querySelectorAll('.m-link').forEach(l => l.onclick = () => menuM.classList.add('translate-x-full'));
+
+        // Fechar menu móvel ao clicar nos links e garantir rolagem suave
+        document.querySelectorAll('.m-link').forEach(l => {
+            l.addEventListener('click', (e) => {
+                const targetId = l.getAttribute('href');
+                // Se for um link interno, fecha o menu antes de ir
+                if (targetId.startsWith('#')) {
+                    menuM.classList.add('translate-x-full');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
 
         // Áudio Lógica
         const audio = document.getElementById('audio-eng');
@@ -401,11 +421,10 @@
         let currentTrackIndex = 0;
         let playing = false;
 
-        // Render Playlist
         const grid = document.getElementById('playlist-grid');
         playlist.forEach((t, i) => {
             const btn = document.createElement('button');
-            btn.className = "track-item flex items-center p-5 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition group text-left shadow-sm dark:shadow-none";
+            btn.className = "track-item flex items-center p-5 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition group text-left shadow-sm dark:shadow-none active:scale-95";
             btn.innerHTML = `<span class="text-3xl font-bebas text-zinc-300 dark:text-zinc-800 group-hover:text-red-600 mr-5">${String(i+1).padStart(2,'0')}</span>
                              <div class="text-zinc-900 dark:text-white"><h4 class="font-black text-xs uppercase">${t.n}</h4><p class="text-[9px] text-zinc-500 dark:text-zinc-600 uppercase italic">Hard Intensity</p></div>`;
             btn.onclick = () => playTrack(i);
@@ -443,6 +462,7 @@
 
         pNext.onclick = nextTrack;
         pPrev.onclick = prevTrack;
+        audio.onended = nextTrack;
 
         function updateUI() {
             pIcon.innerHTML = playing ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
@@ -454,12 +474,9 @@
                 pBar.style.width = (audio.currentTime / audio.duration) * 100 + '%';
             }
         };
-        
-        // Auto-play next track
-        audio.onended = nextTrack;
 
-        // Smooth scroll adjustment
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
+        // Smooth scroll para links do header
+        document.querySelectorAll('nav ul a[href^="#"]').forEach(a => {
             a.onclick = (e) => {
                 e.preventDefault();
                 const t = document.querySelector(a.getAttribute('href'));
