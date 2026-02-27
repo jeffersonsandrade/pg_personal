@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-pt" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulo Giovane | Treinador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vermelho: '#ff0000',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-principal: #f4f4f4;
+            --texto-principal: #050505;
+            --overlay-hero: rgba(244, 244, 244, 0.85);
+        }
+        
+        .dark {
+            --bg-principal: #050505;
+            --texto-principal: #ffffff;
+            --overlay-hero: rgba(5, 5, 5, 0.88);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Efeito de Ruído/Chuviscado */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.12;
+            z-index: 9999;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%" height="100%" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        .font-bebas { font-family: 'Bebas Neue', cursive; }
+
+        /* Botão Estilo Urban */
+        .btn-urban {
+            background-color: #ff0000;
+            color: white;
+            font-weight: 900;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            display: inline-block;
+        }
+        .btn-urban:hover {
+            transform: scale(1.05) skewX(-2deg);
+            background-color: #cc0000;
+            color: white;
+        }
+
+        /* Hero Background */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--overlay-hero), var(--overlay-hero)), url('https://drive.google.com/uc?id=1jVjdr0QEzUpQ0PeRl71F-eESjPSmfdZM');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-principal); }
+        ::-webkit-scrollbar-thumb { background: #ff0000; }
+
+        .active-track {
+            border-color: #ff0000 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+
+        #menu-mobile {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+    </style>
+</head>
+<body class="antialiased" id="topo">
+    <div class="hero-bg"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- Navegação -->
+    <header class="fixed w-full z-[100] bg-white/80 dark:bg-black/90 backdrop-blur-md border-b border-black/5 dark:border-white/5 transition-colors duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#topo" class="text-2xl md:text-3xl font-bebas tracking-tighter italic text-zinc-900 dark:text-white">
+                PAULO GIOVANE | <span class="text-red-600">TREINADOR</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <ul class="hidden lg:flex space-x-8 items-center font-black uppercase text-[10px] tracking-[0.3em]">
+                <li><a href="#sobre" class="hover:text-red-600 transition">Sobre</a></li>
+                <li><a href="#metodo" class="hover:text-red-600 transition">O Método</a></li>
+                <li><a href="#playlist" class="hover:text-red-600 transition">Playlists</a></li>
+                <li><a href="#galeria" class="hover:text-red-600 transition">Galeria</a></li>
+                <li>
+                    <button id="theme-toggle" class="p-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 transition-colors">
+                        <svg id="theme-icon-sun" class="hidden h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 11-2 0V3zM14.036 5.05l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12 10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                        <svg id="theme-icon-moon" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                    </button>
+                </li>
+                <li><a href="#contato" class="btn-urban px-6 py-2 text-center">Agendar Treino</a></li>
+            </ul>
+
+            <!-- Mobile Buttons -->
+            <div class="flex items-center space-x-4 lg:hidden">
+                <button id="theme-toggle-mobile" class="p-2 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+                    <svg class="h-5 w-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                    <svg class="h-5 w-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1z"/></svg>
+                </button>
+                <button id="open-menu" class="text-zinc-900 dark:text-white p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Mobile -->
+    <aside id="menu-mobile" class="fixed inset-0 z-[110] bg-white dark:bg-zinc-950 translate-x-full lg:hidden flex flex-col p-8 transition-colors duration-300">
+        <div class="flex justify-end">
+            <button id="close-menu" class="text-red-600 text-3xl font-bebas tracking-widest p-2">VOLTAR [X]</button>
+        </div>
+        <nav class="flex flex-col space-y-8 mt-12 text-center">
+            <a href="#sobre" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">SOBRE</a>
+            <a href="#metodo" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">MÉTODO</a>
+            <a href="#playlist" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">PLAYLIST</a>
+            <a href="#galeria" class="m-link text-5xl font-bebas text-zinc-900 dark:text-white">GALERIA</a>
+            <a href="#contato" class="m-link text-5xl font-bebas text-red-600 underline">WHATSAPP</a>
+        </nav>
+    </aside>
+
+    <!-- Seção Sobre -->
+    <section id="sobre" class="py-24 bg-white/60 dark:bg-zinc-950/90 backdrop-blur-sm border-t border-zinc-200 dark:border-zinc-900 transition-colors">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                <div class="w-full md:w-2/5 relative">
+                    <div class="absolute -top-4 -left-4 w-full h-full border-2 border-red-600 z-0"></div>
+                    <img src="pg.jpeg" alt="Paulo PG Treinador" class="relative z-10 w-full grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-zinc-200 dark:border-zinc-800">
+                </div>
+                
+                <div class="w-full md:w-3/5 text-zinc-900 dark:text-white">
+                    <h2 class="text-6xl md:text-8xl font-bebas italic leading-none mb-6">O <span class="text-red-600">TREINADOR</span></h2>
+                    <h3 class="text-2xl font-black uppercase mb-6 tracking-tight">Muito prazer, eu sou o Paulo, bem conhecido como <span class="text-red-600">"PG"</span>!</h3>
+                    
+                    <div class="space-y-6 text-zinc-600 dark:text-zinc-400 text-lg">
+                        <p>Se você está em busca de transformação real, com acompanhamento sério, motivação e resultados de verdade, chegou no lugar certo.</p>
+                        
+                        <div class="bg-zinc-100 dark:bg-zinc-900/50 p-6 border-l-4 border-red-600 space-y-4">
+                            <p class="font-bold text-zinc-900 dark:text-white uppercase text-sm tracking-widest">Atendo pessoas que querem:</p>
+                            <ul class="space-y-2">
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span> Emagrecer com saúde</li>
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span> Ganhar massa muscular com estratégia</li>
+                                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span> Ter disciplina e qualidade de vida</li>
+                            </ul>
+                        </div>
+
+                        <p class="text-zinc-900 dark:text-white font-bold italic border-b border-zinc-200 dark:border-zinc-800 pb-2">Vagas limitadas para acompanhamento presencial na região!</p>
+                        <p class="text-sm">Através da minha consultoria online, você terá um plano individualizado, pensado para sua rotina, objetivos e nível de treino.</p>
+                        
+                        <div class="pt-4">
+                            <a href="#contato" class="btn-urban px-10 py-4 text-xl italic uppercase">Garantir minha vaga</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 z-20 text-zinc-900 dark:text-white">
+            <div class="max-w-4xl">
+                <span class="inline-block border-l-4 border-red-600 pl-3 text-red-600 font-black uppercase tracking-[0.4em] text-xs mb-4">Underground Performance</span>
+                <h1 class="text-7xl md:text-[11rem] font-bebas leading-[0.8] mb-6 italic uppercase">
+                    FORJA O TEU <br><span class="text-red-600">DESTINO.</span>
+                </h1>
+                <p class="text-lg md:text-2xl text-zinc-700 dark:text-zinc-300 font-light max-w-xl mb-10 border-l-4 border-red-600 pl-6">
+                    A musculação é a tua mixtape. Cada repetição é um beat. Treina com quem domina o ritmo da força e a estética das ruas.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contato" class="btn-urban px-12 py-5 text-2xl italic text-center uppercase">Entrar no Beat</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Método Section -->
+    <section id="metodo" class="py-24 bg-zinc-50 dark:bg-black/95 transition-colors">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <h2 class="text-6xl md:text-8xl font-bebas italic leading-none uppercase text-zinc-900 dark:text-white">O <span class="text-red-600">Sistema</span></h2>
+                <p class="text-zinc-500 font-black uppercase text-xs tracking-widest md:text-right max-w-xs">
+                    Pilares de elite para transformar a tua composição corporal.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="bg-white dark:bg-zinc-900/50 p-8 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition-all group shadow-sm">
+                    <h3 class="text-3xl font-bebas text-red-600 mb-4 uppercase tracking-widest">01. Hipertrofia</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">Volume adaptado e sobrecarga progressiva. Controla a descida e sente o beat do músculo trabalhar.</p>
+                    <span class="text-[8px] font-black text-zinc-400 dark:text-zinc-700 uppercase tracking-[0.5em]">Mass Gain Mode</span>
+                </article>
+
+                <article class="bg-white dark:bg-zinc-900/50 p-8 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition-all group shadow-sm">
+                    <h3 class="text-3xl font-bebas text-red-600 mb-4 uppercase tracking-widest">02. Definição</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">Défice estratégico e densidade proteica. Corta o ruído e revela o shape que está por baixo.</p>
+                    <span class="text-[8px] font-black text-zinc-400 dark:text-zinc-700 uppercase tracking-[0.5em]">Sharp Cut Mode</span>
+                </article>
+
+                <article class="bg-white dark:bg-zinc-900/50 p-8 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition-all group shadow-sm">
+                    <h3 class="text-3xl font-bebas text-red-600 mb-4 uppercase tracking-widest">03. Mindset</h3>
+                    <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-4">Consistência é o flow. Um treino falhado é uma nota fora do tom. Foco total na execução.</p>
+                    <span class="text-[8px] font-black text-zinc-400 dark:text-zinc-700 uppercase tracking-[0.5em]">Boss Mentality</span>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Playlist Section -->
+    <section id="playlist" class="py-24 bg-zinc-100 dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-6xl md:text-8xl font-bebas italic mb-12 uppercase text-zinc-900 dark:text-white">A <span class="text-red-600">Mixtape</span> do Ferro</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="playlist-grid">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section id="galeria" class="py-24 bg-white dark:bg-black transition-colors">
+        <div class="container mx-auto px-6">
+            <h2 class="text-6xl md:text-8xl font-bebas italic mb-12 uppercase text-zinc-900 dark:text-white">ESTÉTICA <span class="text-red-600">&</span> ATITUDE</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-64 md:h-96 overflow-hidden border border-zinc-100 dark:border-zinc-900"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                <div class="h-64 md:h-96 overflow-hidden border border-zinc-100 dark:border-zinc-900"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                <div class="h-64 md:h-96 overflow-hidden border border-zinc-100 dark:border-zinc-900"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+                <div class="h-64 md:h-96 overflow-hidden border border-zinc-100 dark:border-zinc-900"><img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato / Footer -->
+    <footer id="contato" class="py-24 bg-zinc-50 dark:bg-zinc-950 border-t-8 border-red-600 text-center transition-colors">
+        <div class="container mx-auto px-6">
+            <h2 class="text-6xl md:text-[8rem] font-bebas italic mb-12 uppercase leading-none text-zinc-900 dark:text-white">Bora meter o <span class="text-red-600">shape?</span></h2>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-10 mb-16">
+                <a href="https://api.whatsapp.com/send/?phone=5543988496320" class="btn-urban px-16 py-6 text-3xl italic uppercase text-center">WHATSAPP</a>
+                <div class="text-left border-l border-zinc-300 dark:border-zinc-800 pl-8">
+                    <p class="text-black dark:text-white text-[20px] font-black uppercase tracking-widest mb-2">instagram </p>
+                    <a href="https://www.instagram.com/pgvane_" class="block font-bebas text-3xl text-zinc-900 dark:text-white hover:text-red-600 transition italic">@pgvane_</a>
+                </div>
+            </div>
+
+            <!-- Botão Voltar ao Topo -->
+            <div class="mb-12">
+                <a href="#topo" class="btn-urban p-4 inline-flex items-center justify-center group" aria-label="Voltar ao Topo">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                </a>
+                <p class="text-black dark:text-white text-[10px] uppercase font-black tracking-widest mt-2">Topo</p>
+            </div>
+
+            <p class="text-black dark:text-white text-[12px] uppercase font-black tracking-[0.5em] transition-colors duration-300">Paulo Giovane | Treinador © 2026</p>
+            
+        </div>
+    </footer>
+
+    <!-- Player Fixo Atualizado com controlos Anterior/Próximo -->
+    <div class="fixed bottom-0 left-0 w-full z-[120] bg-white/95 dark:bg-black/95 border-t-2 border-red-600 p-4 shadow-2xl backdrop-blur-md transition-colors">
+        <div class="container mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center space-x-4 flex-1 truncate text-zinc-900 dark:text-white">
+                <div class="w-12 h-12 bg-red-600 flex-shrink-0 flex items-center justify-center rounded-sm rotate-3">
+                    <img id="v-spin" src="https://cdn-icons-png.flaticon.com/512/107/107147.png" class="w-7 h-7 invert opacity-50">
+                </div>
+                <div class="truncate">
+                    <p id="t-name" class="text-xs font-black uppercase truncate tracking-tighter">Sintoniza o Beat</p>
+                    <p class="text-[10px] text-zinc-500 dark:text-zinc-600 font-bold uppercase italic">Hardcore Workout Mix</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4 md:space-x-8">
+                <!-- Controlos do Player: Anterior | Play | Próximo -->
+                <div class="flex items-center space-x-4">
+                    <!-- Botão Anterior -->
+                    <button id="p-prev" class="text-zinc-900 dark:text-white hover:text-red-600 transition group" title="Faixa Anterior">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                        </svg>
+                    </button>
+                    
+                    <button id="p-toggle" class="text-zinc-900 dark:text-white hover:text-red-600 transition scale-125">
+                        <svg id="p-icon" class="h-10 w-10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    
+                    <!-- Botão Próximo -->
+                    <button id="p-next" class="text-zinc-900 dark:text-white hover:text-red-600 transition group" title="Próxima Faixa">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="hidden md:block w-48 h-1 bg-zinc-200 dark:bg-zinc-900 rounded-full overflow-hidden">
+                    <div id="p-bar" class="h-full bg-red-600 w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+        <audio id="audio-eng">
+            <source src="" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        // Lógica de Tema
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeBtnMob = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+
+        function toggleTheme() {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcons(isDark);
+        }
+
+        function updateThemeIcons(isDark) {
+            if (isDark) {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            html.classList.remove('dark');
+            updateThemeIcons(false);
+        } else {
+            html.classList.add('dark');
+            updateThemeIcons(true);
+        }
+
+        themeBtn.onclick = toggleTheme;
+        themeBtnMob.onclick = toggleTheme;
+
+        // Menu Lógica
+        const btnO = document.getElementById('open-menu');
+        const btnC = document.getElementById('close-menu');
+        const menuM = document.getElementById('menu-mobile');
+        btnO.onclick = () => menuM.classList.remove('translate-x-full');
+        btnC.onclick = () => menuM.classList.add('translate-x-full');
+        document.querySelectorAll('.m-link').forEach(l => l.onclick = () => menuM.classList.add('translate-x-full'));
+
+        // Áudio Lógica
+        const audio = document.getElementById('audio-eng');
+        const pBtn = document.getElementById('p-toggle');
+        const pPrev = document.getElementById('p-prev');
+        const pNext = document.getElementById('p-next');
+        const pIcon = document.getElementById('p-icon');
+        const tName = document.getElementById('t-name');
+        const pBar = document.getElementById('p-bar');
+        const vSpin = document.getElementById('v-spin');
+
+        const playlist = [
+            { n: "Phonk Musculação", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { n: "Trap Agressivo", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { n: "Drill Underground", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { n: "Hardcore Boom Bap", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { n: "West Coast Power", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { n: "Dark Phonk 2.0", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { n: "Bass Boosted Mix", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+            { n: "Urban Strength", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
+            { n: "Final Rep Phonk", u: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" }
+        ];
+
+        let currentTrackIndex = 0;
+        let playing = false;
+
+        // Render Playlist
+        const grid = document.getElementById('playlist-grid');
+        playlist.forEach((t, i) => {
+            const btn = document.createElement('button');
+            btn.className = "track-item flex items-center p-5 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-red-600 transition group text-left shadow-sm dark:shadow-none";
+            btn.innerHTML = `<span class="text-3xl font-bebas text-zinc-300 dark:text-zinc-800 group-hover:text-red-600 mr-5">${String(i+1).padStart(2,'0')}</span>
+                             <div class="text-zinc-900 dark:text-white"><h4 class="font-black text-xs uppercase">${t.n}</h4><p class="text-[9px] text-zinc-500 dark:text-zinc-600 uppercase italic">Hard Intensity</p></div>`;
+            btn.onclick = () => playTrack(i);
+            grid.appendChild(btn);
+        });
+
+        function playTrack(i) {
+            currentTrackIndex = i;
+            document.querySelectorAll('.track-item').forEach(b => b.classList.remove('active-track'));
+            if(grid.children[i]) grid.children[i].classList.add('active-track');
+            
+            audio.src = playlist[i].u;
+            tName.innerText = playlist[i].n;
+            audio.play();
+            playing = true;
+            updateUI();
+        }
+
+        function nextTrack() {
+            let nextIndex = (currentTrackIndex + 1) % playlist.length;
+            playTrack(nextIndex);
+        }
+
+        function prevTrack() {
+            let prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            playTrack(prevIndex);
+        }
+
+        pBtn.onclick = () => {
+            if(!audio.src) return playTrack(currentTrackIndex);
+            playing ? audio.pause() : audio.play();
+            playing = !playing;
+            updateUI();
+        };
+
+        pNext.onclick = nextTrack;
+        pPrev.onclick = prevTrack;
+
+        function updateUI() {
+            pIcon.innerHTML = playing ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+            playing ? vSpin.classList.add('animate-spin') : vSpin.classList.remove('animate-spin');
+        }
+
+        audio.ontimeupdate = () => {
+            if (audio.duration) {
+                pBar.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            }
+        };
+        
+        // Auto-play next track
+        audio.onended = nextTrack;
+
+        // Smooth scroll adjustment
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.onclick = (e) => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if(t) t.scrollIntoView({ behavior: 'smooth' });
+            };
+        });
+    </script>
+    <style>
+        .animate-spin { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
